@@ -16,7 +16,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
         queryset = Reservation.objects.all()
         return queryset
     
-class PaymentViewSet(viewsets.ViewSet):
+class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializers
     def get_queryset(self):

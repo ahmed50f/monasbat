@@ -34,7 +34,6 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_data = models.DateTimeField(auto_now_add=True)
     payment_method = payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
-    card_number = models.CharField(max_length=16)
     card_number = models.CharField(max_length=16, blank=True, null=True)
     card_holder_name = models.CharField(max_length=100, blank=True, null=True)
     card_expiry_date = models.DateField()

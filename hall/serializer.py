@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hall, Extra_Packges, Basic_Packges
+from .models import Hall, Extra_Packges, Basic_Packges, UserHall
 
 
 class HallSerializer(serializers.ModelSerializer):
@@ -24,3 +24,8 @@ class PopularHallsSerializer(serializers.ModelSerializer):
         model = Hall
         fields = '__all__'
         filters ={'rate',}
+
+class UserHallSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserHall
+        fields = '__all__'

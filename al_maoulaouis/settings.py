@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'musical_band',
     'lights',
     'reservation',
+    'cart',
 ]
     
 REST_FRAMEWORK ={}

@@ -5,10 +5,10 @@ from .models import Reservation, Payment
 class ReservationSerializers(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        field = '__all__'
+        fields = '__all__'
 
 class PaymentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        field = '__all__'
+        fields = '__all__'
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import DJ
-from .serializer import DJSerializer    
+from .models import DJ, UserDJ
+from .serializer import DJSerializer, UserDJSerializer    
 from rest_framework import viewsets
 from rest_framework.response import Response
 # Create your views here.
@@ -12,6 +12,12 @@ class DJViewSet(viewsets.ModelViewSet):
 
 class TopDJViewSet(viewsets.ModelViewSet):
     def list(self, request):
-        queryset =DJ.objects.all().order_by('-rating')[:5]
-        serializer_class = DJSerializer(DJ , many=True)
-        return Response(DJ.data)
+        queryset = DJ.objects.all().order_by('-rate')[:5]
+        serializer = DJSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class UserDJViewSet(viewsets.ModelViewSet):
+    queryset = UserDJ.objects.all()
+    serializer_class = UserDJSerializer
+    def get_queryset(self):
+        return UserDJ.objects.all()

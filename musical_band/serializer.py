@@ -1,13 +1,17 @@
 from rest_framework import serializers
-from .models import Musical_Band
+from .models import Musical_Band, UserMusical_Band
 
 class MusicalBandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Musical_Band
-        fields = '__all__ '
+        fields = '__all__'
 
 class TopMusicalBandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Musical_Band
         fields = '__all__'
-        filter = {'rate'}
+        
+class UserMusicalBandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserMusical_Band
+        fields = '__all__'

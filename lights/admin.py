@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Light
+from .models import Light, UserLight
 
 @admin.register(Light)
 class LightAdmin(admin.ModelAdmin):
@@ -27,3 +27,9 @@ class LightAdmin(admin.ModelAdmin):
     )
     ordering = ('-created_at',)
 
+@admin.register(UserLight)
+class UserLightAdmin(admin.ModelAdmin):
+      list_display = ('name', 'contact', 'price')
+      search_fields = ('name', 'contact')      
+      list_filter = ('price',)      
+      ordering = ('name',) 

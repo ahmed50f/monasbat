@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .serializer import HallSerializer, Extra_PackgesSerializer, Basic_PackagesSerializer
-from .models import Hall, Extra_Packges, Basic_Packges
+from .serializer import HallSerializer, Extra_PackgesSerializer, Basic_PackagesSerializer, UserHallSerializer
+from .models import Hall, Extra_Packges, Basic_Packges, UserHall
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
@@ -39,3 +39,10 @@ class PopularHallsViewSet(viewsets.ViewSet):
         halls = Hall.objects.order_by('-rate')[:5]  
         serializer = HallSerializer(halls, many=True)
         return Response(serializer.data)
+
+class UserHallViewSet(viewsets.ModelViewSet):
+    queryset = UserHall.objects.all()
+    serializer_class = UserHallSerializer
+    def get_queryset(self):
+        queryset = UserHall.objects.all()
+        return queryset

@@ -19,6 +19,14 @@ class Musical_Band(models.Model):
     class Meta:
         verbose_name_plural = 'Musical Bands'
 
+class UserMusical_Band(models.Model):
+    name = models.CharField(max_length=100)
+    contact = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
     
     
