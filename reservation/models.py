@@ -1,11 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
 from hall.models import Hall
-
+from django.conf import settings
 # Create your models here.
 
 class Reservation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=models.CASCADE)
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE)
     date = models.DateField()
     start_time = models.TimeField()
