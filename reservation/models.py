@@ -22,18 +22,3 @@ class Reservation(models.Model):
     
 
 
-class Payment(models.Model):
-    PAYMENT_METHOD_CHOICES = [
-        ('visa', 'Visa Card'),
-        ('apple_pay', 'Apple Pay'),
-        ('cash', 'Cash'),
-    ]
-
-    reservation = models.OneToOneField('Reservation', on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_data = models.DateTimeField(auto_now_add=True)
-    payment_method = payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
-    card_number = models.CharField(max_length=16, blank=True, null=True)
-    card_holder_name = models.CharField(max_length=100, blank=True, null=True)
-    card_expiry_date = models.DateField()
-    cvv = models.CharField(max_length=3, blank=True, null=True)

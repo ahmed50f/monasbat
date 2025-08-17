@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _ 
 from rest_framework import viewsets
-from .models import Hall, Reservation, Payment
-from .serializer import  ReservationSerializers, PaymentSerializers
+from .models import Hall, Reservation
+from .serializer import  ReservationSerializers
 from django.http import JsonResponse
 from django.db import transaction
 from datetime import datetime
@@ -16,12 +16,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
         queryset = Reservation.objects.all()
         return queryset
     
-class PaymentViewSet(viewsets.ModelViewSet):
-    queryset = Payment.objects.all()
-    serializer_class = PaymentSerializers
-    def get_queryset(self):
-        queryset = Payment.objects.all()
-        return queryset
+
     
 
 @transaction.atomic

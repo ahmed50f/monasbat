@@ -46,15 +46,18 @@ INSTALLED_APPS = [
     'reservation',
     'cart',
     'accounts',
+    
 
     
 ]
     
 REST_FRAMEWORK ={
-    'DEFAULT_PERMISSION_CLASSES':(
+    'DEFAULT_PERMISSION_CLASSES':[
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
 }
 
 MIDDLEWARE = [
