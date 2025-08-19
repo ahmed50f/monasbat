@@ -1,39 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 
-
-
-class CustomUserManager(BaseUserManager):
-    def create_user(self, phone, password=None, username=None, **extra_fields):
-        if not phone:
-            raise ValueError(_("Users must have a phone number"))
-        phone = str(phone)
-        user = self.model(phone=phone, **extra_fields)
-        user.set_password(password)
+class UserManager(BaseUserManager):
+    def create_user(self, phone_number, password=None, **extra_fields):
+        if not phone_number:
+            raise ValueError("The Phone Number must be set")
+        user = self.model(phone_number=phone_number, **extra_fields)
+        user.set_password(password)   # ✅ هنا بيتشفر
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, password=None,username=None, **extra_fields):
+    def create_superuser(self, phone_number, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
+        return self.create_user(phone_number, password, **extra_fields)
 
-        return self.create_user(phone, password, **extra_fields)
 
-
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    full_name = models.CharField(max_length=150)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=15, unique=True)
+class User(AbstractBaseUser, PermissionsMixin):
+    phone_number = models.CharField(max_length=15, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
-    USERNAME_FIELD = "phone"  
-    REQUIRED_FIELDS = ["email", "full_name"]  
+    USERNAME_FIELD = "phone_number"
+    REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.full_name
+        return self.phone_number

@@ -1,31 +1,30 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model, authenticate
-
-User = get_user_model()
+from .models import User
+from django.contrib.auth import authenticate
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-
     class Meta:
         model = User
-        fields = ["full_name", "email", "phone", "password"]
+        fields = ("phone_number", "password")
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            phone=validated_data["phone"],
-            email=validated_data["email"],
-            full_name=validated_data["full_name"],
-            password=validated_data["password"],
+        return User.objects.create_user(
+            phone_number=validated_data["phone_number"],
+            password=validated_data["password"]
         )
-        return user
 
 
 class LoginSerializer(serializers.Serializer):
-    phone = serializers.CharField()
+    phone_number = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        user = authenticate(phone=data["phone"], password=data["password"])
-        if not user:
-            raise serializers.ValidationError("Invalid phone or password")
-        return user
+        phone_number = data.get("phone_number")
+        password = data.get("password")
+
+        user = authenticate(phone_number=phone_number, password=password)
+        if user is None:
+            raise serializers.ValidationError("Invalid phone number or password")
+        data["user"] = user
+        return data

@@ -9,11 +9,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # JWT
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
     # Accounts
-    path('api/accounts/', include('accounts.urls')),
+    path("api/accounts/", include("accounts.urls")),  
 
     # Other apps
     path('api/hall/', include('hall.urls')),
@@ -23,4 +23,3 @@ urlpatterns = [
     path('api/reservation/', include('reservation.urls')),
     path('api/cart/', include('cart.urls')),
 ]
-   
