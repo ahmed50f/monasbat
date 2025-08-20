@@ -6,7 +6,7 @@ import requests
 from django.core.cache import cache
 from django.contrib.auth import get_user_model
 import logging
-
+from .models import Notification
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
@@ -164,3 +164,13 @@ class Util:
         except Exception as e:
             logger.exception("SMS provider threw an exception")
             return {"success": False, "error": str(e)}
+
+
+def send_notification(user, sender, title, message, type="general"):
+    return Notification.objects.create(
+        user=user,
+        sender=sender,
+        title=title,
+        message=message,
+        type=type
+    )

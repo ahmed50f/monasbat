@@ -10,6 +10,7 @@ import pyotp
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import ValidationError
+from .models import Notification
 
 logger = logging.getLogger(__name__)
 
@@ -149,3 +150,9 @@ class LogoutSerializer(serializers.Serializer):
             except Exception:
                 raise ValidationError({"refresh": _("Token already blacklisted or invalid.")})
 
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'
+        read_only_fields = ['id', 'created_at', 'sender']

@@ -27,3 +27,6 @@ class UserHallAdmin(admin.ModelAdmin):
       search_fields = ('name', 'contact')      
       list_filter = ('price',)      
       ordering = ('name',) 
+
+    
+

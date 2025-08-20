@@ -10,3 +10,5 @@ router.register(r'PopularHallsViewSet',PopularHallsViewSet , basename='popularHa
 router.register(r'user_hall', UserHallViewSet, basename='user_hall')
 
 urlpatterns = router.urls
+
+

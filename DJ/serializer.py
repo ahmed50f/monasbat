@@ -13,5 +13,5 @@ class TopDJSerializer(serializers.ModelSerializer):
         
 class UserDJSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DJ
+        model = UserDJ
         fields = '__all__'

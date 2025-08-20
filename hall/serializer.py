@@ -29,3 +29,4 @@ class UserHallSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserHall
         fields = '__all__'
+

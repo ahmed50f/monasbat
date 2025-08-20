@@ -17,6 +17,10 @@ from fcm_django.models import FCMDevice
 from .serializers import RegisterSerializer, LogoutSerializer, UserProfileUpdateSerializer, OTPVerificationSerializer, ResetPasswordSerializer, ProfileSerializer, ChangePasswordSerializer
 from .utils import Util
 from rest_framework.permissions import AllowAny
+from .models import Notification
+from .serializers import NotificationSerializer
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import action
 User = get_user_model()
 
 
@@ -270,3 +274,22 @@ def logout(request):
         "message": _("Logout successfully."),
         "deleted_devices": deleted_devices
     }, status=status.HTTP_200_OK)
+
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Notification.objects.filter(user=self.request.user).order_by('-created_at')
+    
+    def created_at(self, serializer):
+        serializer.save(sender=self.request.user)
+
+
+    @action(detail=True, methods=['post'])
+    def mark_as_read(self, request, pk=None):
+        notification = self.get_object()
+        notification.is_read = True
+        notification.save(update_fields=['is_read'])
+        return Response({'status': 'marked as read', 'id': notification.id})

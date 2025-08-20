@@ -6,6 +6,9 @@ from .serializer import  ReservationSerializers
 from django.http import JsonResponse
 from django.db import transaction
 from datetime import datetime
+from rest_framework.decorators import action
+from accounts.utils import send_notification
+
 # Create your views here.
 
     
@@ -49,7 +52,7 @@ def book_hall(request, name, date):
             return JsonResponse({'error': _('the hall already booked')}, status=400)
 
         # إنشاء الحجز
-        Reservation.objects.create(
+        reservation = Reservation.objects.create(
             hall=hall,
             user=request.user,
             date=date_obj,
@@ -57,7 +60,19 @@ def book_hall(request, name, date):
             end_time=end_time
         )
 
-        return JsonResponse({'message':_('your reservation has been completed successfully')}, status=201)
+        # ✅ استدعاء send_notification هنا بعد الحجز
+        from accounts.utils import send_notification
+        send_notification(
+            user=request.user,
+            title=_("Reservation Confirmed"),
+            message=_("Your reservation for hall {hall} on {date} has been confirmed.").format(
+                hall=hall.name, date=date_obj
+            ),
+            notif_type="reservation",
+            sender=None
+        )
+
+        return JsonResponse({'message': _('your reservation has been completed successfully')}, status=201)
 
     except Hall.DoesNotExist:
         return JsonResponse({'error': _('the hall not found')}, status=404)
